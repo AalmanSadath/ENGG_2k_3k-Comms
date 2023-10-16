@@ -59,7 +59,7 @@ void setNum(int startLED, int num){
    * @param speed: Float value of speed to be changed to
    * Expected Input: Float of precision 1 where 0<=speed<=9.9
 	 */
-void updateSpeed(int wheelNum, float speed){
+void updateSpeedDisplay(int wheelNum, float speed){
     //convert float to char to extract digits
     char[] speedString=speed.to_string();
     if(wheelNum==1){
