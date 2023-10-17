@@ -6,9 +6,9 @@
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 100; // timing delay in milliseconds
+int delayval = 500; // timing delay in milliseconds
 //Nested array of boolean values corresponding to LEDs based on design specifications of 7 Segment Display. Numbers in Array correspond to array position. 
-int[][] ledStates=[[1,1,1,1,0,1,1],[0,0,0,1,0,1,0],[1,0,1,1,1,0,1],[0,0,1,1,1,1,1],[0,1,0,1,1,1,0],[0,1,1,0,1,1,1],[1,1,1,0,1,1,1],[0,0,1,1,0,1,0],[1,1,1,1,1,1,1],[0,1,1,1,1,1,1]];
+int ledStates[10][7]={{1,1,1,1,0,1,1},{0,0,0,1,0,1,0},{1,0,1,1,1,0,1},{0,0,1,1,1,1,1},{0,1,0,1,1,1,0},{0,1,1,0,1,1,1},{1,1,1,0,1,1,1},{0,0,1,1,0,1,0},{1,1,1,1,1,1,1},{0,1,1,1,1,1,1}};
 
 void setup() {
   // Initialize the NeoPixel library.
@@ -42,7 +42,7 @@ void loop() {
 void setNum(int startLED, int num){
 
     for(int i=0; i<=6; i++){
-      if(ledState[num][i]){
+      if(ledStates[num][i]){
         pixels.setPixelColor(startLED+i,pixels.Color(255,0,0));
       }
       else{
@@ -59,9 +59,11 @@ void setNum(int startLED, int num){
    * @param speed: Float value of speed to be changed to
    * Expected Input: Float of precision 1 where 0<=speed<=9.9
 	 */
-void updateSpeed(int wheelNum, float speed){
+void updateSpeedDisplay(int wheelNum, float speed){
     //convert float to char to extract digits
-    char[] speedString=speed.to_string();
+    char speedString[3];
+    //Convert float to string to get values at ones and tenths place
+    dtostrf(speed, 2, 1, speedString);
     if(wheelNum==1){
       //extract 1st digit from float string and cal setNum function
       setNum(0,speedString[0]-'0');
