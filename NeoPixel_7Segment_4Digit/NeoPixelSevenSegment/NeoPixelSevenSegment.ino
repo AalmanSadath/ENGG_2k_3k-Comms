@@ -2,7 +2,7 @@
 
 #define PIN 2	 // input pin Neopixel is attached to
 
-#define NUMPIXELS      7 // number of neopixels in strip
+#define NUMPIXELS      32 // number of neopixels in strip
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
@@ -63,7 +63,7 @@ void updateSpeedDisplay(int wheelNum, float speed){
     //convert float to char to extract digits
     char speedString[3];
     //Convert float to string to get values at ones and tenths place
-    dtostrf(speed, 2, 1, speedString);
+    dtostrf(speed, 3, 1, speedString);
     if(wheelNum==1){
       //extract 1st digit from float string and cal setNum function
       setNum(0,speedString[0]-'0');
@@ -74,6 +74,6 @@ void updateSpeedDisplay(int wheelNum, float speed){
       setNum(16,speedString[0]-'0');
       setNum(24,speedString[2]-'0');
     }
-    pixels.setPixelColor((wheelNum*8)-1,pixels.Color(255,0,0));
+    pixels.setPixelColor((wheelNum*8)-1,pixels.Color(0,255,0));
     pixels.show();
 }
