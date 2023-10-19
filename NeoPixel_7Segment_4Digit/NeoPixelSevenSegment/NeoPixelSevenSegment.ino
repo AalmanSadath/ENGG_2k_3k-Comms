@@ -2,17 +2,19 @@
 
 #define PIN 2	 // input pin Neopixel is attached to
 
-#define NUMPIXELS      32 // number of neopixels in strip
+#define NUMPIXELS      30 // number of neopixels in strip
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 500; // timing delay in milliseconds
+int delayval = 3000; // timing delay in milliseconds
 //Nested array of boolean values corresponding to LEDs based on design specifications of 7 Segment Display. Numbers in Array correspond to array position. 
 int ledStates[10][7]={{1,1,1,1,0,1,1},{0,0,0,1,0,1,0},{1,0,1,1,1,0,1},{0,0,1,1,1,1,1},{0,1,0,1,1,1,0},{0,1,1,0,1,1,1},{1,1,1,0,1,1,1},{0,0,1,1,0,1,0},{1,1,1,1,1,1,1},{0,1,1,1,1,1,1}};
 
 void setup() {
   // Initialize the NeoPixel library.
   pixels.begin();
+  updateSpeedDisplay(1,8.8);
+  updateSpeedDisplay(2,8.8);
 }
 
 
@@ -22,6 +24,11 @@ void loop() {
   for (int i=0; i < 10; i++) {
     //Call SetNum function with numbers from 0 to 9
     setNum(0,i);
+   setNum(8,i);
+    setNum(15,i);
+    setNum(22,i);
+    pixels.setPixelColor(7,pixels.Color(0,255,0));
+    pixels.setPixelColor(22,pixels.Color(0,255,0));
 
     // This sends the updated pixel color to the hardware.
     pixels.show();
@@ -43,7 +50,7 @@ void setNum(int startLED, int num){
 
     for(int i=0; i<=6; i++){
       if(ledStates[num][i]){
-        pixels.setPixelColor(startLED+i,pixels.Color(255,0,0));
+        pixels.setPixelColor(startLED+i,pixels.Color(0,0,255));
       }
       else{
         pixels.setPixelColor(startLED+i,pixels.Color(0,0,0));
@@ -62,7 +69,7 @@ void setNum(int startLED, int num){
 void updateSpeedDisplay(int wheelNum, float speed){
     //convert float to char to extract digits
     char speedString[3];
-    //Convert float to string to get values at ones and tenths place
+    //Convert float to string to get values at ones and tenths place and decimal point
     dtostrf(speed, 3, 1, speedString);
     if(wheelNum==1){
       //extract 1st digit from float string and cal setNum function
@@ -71,9 +78,10 @@ void updateSpeedDisplay(int wheelNum, float speed){
       setNum(8,speedString[2]-'0');
     }
     else if(wheelNum==2){
-      setNum(16,speedString[0]-'0');
-      setNum(24,speedString[2]-'0');
+      setNum(15,speedString[0]-'0');
+      setNum(23,speedString[2]-'0');
     }
-    pixels.setPixelColor((wheelNum*8)-1,pixels.Color(0,255,0));
+    pixels.setPixelColor(7,pixels.Color(0,255,0));
+    pixels.setPixelColor(22,pixels.Color(0,255,0));
     pixels.show();
 }
