@@ -10,6 +10,20 @@ unsigned long currentSignalTime = 0;
 
 // Variable to store the time difference
 unsigned long timeDifference = 0;
+int currentMotorSpeed = 128;
+
+int adjustMotorSpeed(unsigned long timeTaken){
+    signed long deviation = timeTaken - 1000;
+    signed long adjustment = deviation * 0.15;
+    currentMotorSpeed += adjustment;
+    if (currentMotorSpeed < 10){
+      currentMotorSpeed = 10;
+    }
+    else if (currentMotorSpeed > 255){
+      currentMotorSpeed = 255;
+    }
+    analogWrite(motorSpeedPin, currentMotorSpeed);
+}
 
 void setup()
 {
@@ -17,7 +31,7 @@ void setup()
   pinMode(sensorPin, INPUT);
   digitalWrite(sensorPin, HIGH);
   Serial.begin(9600);
-  analogWrite(motorSpeedPin, 128); // Setting the default speed to 128 for now for testing purposes
+  analogWrite(motorSpeedPin, currentMotorSpeed); // Setting the default speed to 128 for now for testing purposes
 }
 
 void loop()
@@ -39,21 +53,11 @@ void loop()
 
     // Calculate the time difference between consecutive signals
     timeDifference = currentSignalTime - lastSignalTime;
+    adjustMotorSpeed(timeDifference);
 
     // Print the time difference to the Serial Monitor
     Serial.print("Time Difference: ");
-    Serial.println(timeDifference);
-
-    // For testing purposes if the time difference detected between 2 consecutive breaks is greater than the interval then the motor speed is increased, otherwise if its consistently below the interval then its set to 128
-    if (timeDifference > interval)
-    {
-      analogWrite(motorSpeedPin, 255);
-      Serial.println("Motor speed adjusted!");
-    }
-    else
-    {
-      analogWrite(motorSpeedPin, 128);
-    }
+    Serial.println(timeDifference);    
 
     // Reset the last signal time for the next measurement
     lastSignalTime = 0;
