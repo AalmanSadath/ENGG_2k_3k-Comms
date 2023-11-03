@@ -6,7 +6,7 @@
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 3000; // timing delay in milliseconds
+int delayval = 1000; // timing delay in milliseconds
 //Nested array of boolean values corresponding to LEDs based on design specifications of 7 Segment Display. Numbers in Array correspond to array position. 
 int ledStates[10][7]={{1,1,1,1,0,1,1},{0,0,0,1,0,1,0},{1,0,1,1,1,0,1},{0,0,1,1,1,1,1},{0,1,0,1,1,1,0},{0,1,1,0,1,1,1},{1,1,1,0,1,1,1},{0,0,1,1,0,1,0},{1,1,1,1,1,1,1},{0,1,1,1,1,1,1}};
 
@@ -14,7 +14,7 @@ void setup() {
   // Initialize the NeoPixel library.
   pixels.begin();
   updateSpeedDisplay(1,8.8);
-  updateSpeedDisplay(2,8.8);
+  //updateSpeedDisplay(2,8.8);
 }
 
 
@@ -24,9 +24,9 @@ void loop() {
   for (int i=0; i < 10; i++) {
     //Call SetNum function with numbers from 0 to 9
     setNum(0,i);
-   setNum(8,i);
+    setNum(8,i);
     setNum(15,i);
-    setNum(22,i);
+    setNum(23,i);
     pixels.setPixelColor(7,pixels.Color(0,255,0));
     pixels.setPixelColor(22,pixels.Color(0,255,0));
 
