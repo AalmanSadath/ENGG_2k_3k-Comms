@@ -69,7 +69,7 @@ void loop()
     if(timeDifference<1000){
       delay(1000-timeDifference);
     }
-    else if(timeDifference>1000){
+    else if(lastSignalTime !=0 && (millis()-lastSignalTime)>1000){
       adjustMotorSpeed(timeDifference);
       while(digitalRead(sensorPin)==LOW){}
     }
