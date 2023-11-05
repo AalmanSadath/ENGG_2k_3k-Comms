@@ -70,7 +70,7 @@ void loop()
       delay(1000-timeDifference);
     }
     else if(lastSignalTime !=0 && (millis()-lastSignalTime)>1000){
-      adjustMotorSpeed(timeDifference);
+      adjustMotorSpeed(millis()-lastSignalTime);
       while(digitalRead(sensorPin)==LOW){}
     }
     analogWrite(motorSpeedPin,defaultSpeed);
