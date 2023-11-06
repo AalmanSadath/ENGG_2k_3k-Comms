@@ -18,9 +18,11 @@ void setup() {
 
 //Test Loop
 void loop() {
-  updateSpeedDisplay(0.573);
-  delay(1000);
-  pixels.show();
+  updateSpeedDisplay(0.765);
+  for(float i = 0.000;i<10;i+=0.001){
+    updateSpeedDisplay(i);
+    delay(10);
+  }
 }
 
 /**
@@ -29,7 +31,7 @@ void loop() {
 	 * @param startLED : Leading LED of Digit that needs to be changed.
    * Expected Input: 0, 8, 16 or 24. The start LEDs for the 4 digits to be displayed
    * @param num: Number to be changed to.
-   * Expected Input: 0 to 9
+   * Expected Input: 0.000 to 9.999
 	 */
 void setNum(int startLED, int num){
 
@@ -53,7 +55,7 @@ void updateSpeedDisplay(float interval){
     //convert float to char to extract digits
     char intervalString[5];
     //Convert float to string to get values at ones and tenths place and decimal point
-    dtostrf(interval, 3, 3, speedString);
+    dtostrf(interval, 3, 3, intervalString);
       //extract 1st digit from float string and cal setNum function
       setNum(0,intervalString[0]-'0');
       //skipping to index 2 due to decimal point location in expected input
